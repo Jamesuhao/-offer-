@@ -43,7 +43,7 @@ CMyString& operator=(const CMystring& str)
 //方法二：现代写法
 /*
 函数解释：
-在这函数中，我们先创建一个临时对象str，接着把str.m_pData和实例自身的m_pData做交换。
+在这个函数中，我们先创建一个临时对象str，接着把str.m_pData和实例自身的m_pData做交换。
 由于str是一个局部变量，当函数结束时，就会自动调用str的析构函数，把str所指向的内存释放掉，
 由于str.m_pData指向的内存就是实例之前m_pData的内存，这就相当于自动调用析构函数释放实例的内存。
 */
