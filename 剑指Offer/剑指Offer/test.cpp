@@ -142,8 +142,6 @@ newlen=len+2*Blankcount。(Blankcount代表空格的个数，两个长度均包含'\0'）
 直至p和q相等时，则替换结束。
 */
 //代码实现：
-
-
 //length为字符数组string的总容量
 void ReplaceBlank(char string[], int length)
 {
@@ -193,5 +191,127 @@ void ReplaceBlank(char string[], int length)
 		//更新indexlen
 		--index;
 	}
+}
+/*
+相关题目：合并排序数组
+有两个排序数组A1和A2，内存在A1的末尾有足够的空间容纳A2。请实现一个函数，把A2中所有的数字插入到A1中并且数字是排序的。
+*/
+代码实现:
+1)有输入：
+class Solution {
+public:
+	void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+		if (m == 0)
+		{
+			swap(nums1, nums2);
+			return;
+		}
+		m = m - 1;
+		n = n - 1;
+		int length = m + n + 1;
+		while (n >= 0 && m >= 0)
+		{
+			if (nums1[m] > nums2[n])
+			{
+				nums1[length--] = nums1[m--];
+			}
+			else
+			{
+				nums1[length--] = nums2[n--];
+			}
+		}
+		while (m >= 0)
+		{
+			nums1[length--] = nums1[m--];
+		}
+		while (n >= 0)
+		{
+			nums1[length--] = nums2[n--];
+		}
+	}
+};
+2)无输入：
+#include<iostream>
+#include<string>
+#include<queue>
+using namespace std;
+void transform(string& str, queue<int>& que)
+{
+	int tmp = 0;
+	for (int i = 0; i < str.size(); ++i)
+	{
+		if (str[i] != ',')
+		{
+			tmp = tmp * 10 + str[i] - '0';
+		}
+		else
+		{
+			que.push(tmp);
+			tmp = 0;
+		}
+	}
+	que.push(tmp);
+}
+void merge(string& str1, string& str2)
+{
+
+	{
+		queue<int>que1;
+		queue<int>que2;
+		transform(str1, que1);
+		transform(str2, que2);
+		queue<int>que3;
+		while (que1.size() && que2.size())
+		{
+			if (que1.front() > que2.front())
+			{
+				que3.push(que2.front());
+				que2.pop();
+			}
+			else
+			{
+				que3.push(que1.front());
+				que1.pop();
+			}
+		}
+		while (que1.size())
+		{
+			que3.push(que1.front());
+			que1.pop();
+		}
+		while (que2.size())
+		{
+			que3.push(que2.front());
+			que2.pop();
+		}
+		int flag = 0;
+		while (que3.size())
+		{
+			if (flag)
+			{
+				cout << ',';
+			}
+			cout << que3.front();
+			que3.pop();
+			flag = 1;
+		}
+		cout << endl;
+	}
+}
+int main()
+{
+	string str1, str2;
+	cin >> str1 >> str2;
+	if (str2.size() == 0)
+	{
+		cout << str1;
+	}
+	else if (str1.size() == 0)
+	{
+		cout << str2;
+	}
+	else
+		merge(str1, str2);
+	return 0;
 }
 #endif
